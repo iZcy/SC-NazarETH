@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { baseSepolia } from 'wagmi/chains'
 import type { Page } from '../App'
 import { ADDRESSES, NazarRegistryAbi } from '../lib/contracts'
 
@@ -31,6 +32,7 @@ export default function RegisterPage({ onNavigate }: Props) {
       abi: NazarRegistryAbi,
       functionName: 'devRegister',
       args: [BigInt(stravaId)],
+      chainId: baseSepolia.id,
     })
   }
 

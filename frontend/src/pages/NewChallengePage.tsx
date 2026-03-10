@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { baseSepolia } from 'wagmi/chains'
 import type { Page } from '../App'
 import { ADDRESSES, NazarChallengeAbi, MockUSDAbi, parseUSDC, ACTIVITY_TYPES } from '../lib/contracts'
 
@@ -122,6 +123,7 @@ export default function NewChallengePage({ onNavigate }: Props) {
               abi: MockUSDAbi,
               functionName: 'approve',
               args: [ADDRESSES.NazarChallenge, stakeRaw * 10n], // approve 10x for convenience
+              chainId: baseSepolia.id,
             })}
           >
             {approving ? 'Confirm approval in wallet…' : `1. Approve ${stakeAmount} USDC`}
@@ -144,6 +146,7 @@ export default function NewChallengePage({ onNavigate }: Props) {
                 deadline,
                 stakeRaw,
               ],
+              chainId: baseSepolia.id,
             })}
           >
             {creating ? 'Confirm in wallet…' : '2. Create Challenge'}

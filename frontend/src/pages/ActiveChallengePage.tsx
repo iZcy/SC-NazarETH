@@ -1,4 +1,5 @@
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { baseSepolia } from 'wagmi/chains'
 import {
   ADDRESSES, NazarChallengeAbi, MockUSDAbi,
   formatUSDC, formatBps, formatDeadline, CHALLENGE_STATUS,
@@ -140,6 +141,7 @@ export default function ActiveChallengePage() {
                 address: ADDRESSES.MockUSDC, abi: MockUSDAbi,
                 functionName: 'approve',
                 args: [ADDRESSES.NazarChallenge, stakeAmount],
+                chainId: baseSepolia.id,
               })}>
               {approving ? 'Confirm…' : `Approve ${formatUSDC(stakeAmount)} USDC`}
             </button>
@@ -150,6 +152,7 @@ export default function ActiveChallengePage() {
                 address: ADDRESSES.NazarChallenge, abi: NazarChallengeAbi,
                 functionName: 'deposit',
                 args: [challengeId as bigint],
+                chainId: baseSepolia.id,
               })}>
               {depositing ? 'Confirm…' : `Deposit ${formatUSDC(stakeAmount)} USDC`}
             </button>
@@ -169,6 +172,7 @@ export default function ActiveChallengePage() {
               address: ADDRESSES.NazarChallenge, abi: NazarChallengeAbi,
               functionName: 'withdrawProgress',
               args: [challengeId as bigint],
+              chainId: baseSepolia.id,
             })}>
             {withdrawing ? 'Confirm…' : 'Withdraw Milestone'}
           </button>
@@ -187,6 +191,7 @@ export default function ActiveChallengePage() {
               address: ADDRESSES.NazarChallenge, abi: NazarChallengeAbi,
               functionName: 'finalize',
               args: [challengeId as bigint],
+              chainId: baseSepolia.id,
             })}>
             {finalizing ? 'Confirm…' : 'Finalize Challenge'}
           </button>

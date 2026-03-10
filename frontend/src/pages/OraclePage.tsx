@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { baseSepolia } from 'wagmi/chains'
 import { ADDRESSES, NazarOracleAbi } from '../lib/contracts'
 
 export default function OraclePage() {
@@ -67,6 +68,7 @@ export default function OraclePage() {
               BigInt(progressBps),
               BigInt(Math.floor(Date.now() / 1000)),
             ],
+            chainId: baseSepolia.id,
           })}>
           {submitting ? 'Confirm…' : 'Submit Progress'}
         </button>
@@ -98,6 +100,7 @@ export default function OraclePage() {
             abi: NazarOracleAbi,
             functionName: 'finalizeProgress',
             args: [fWallet as `0x${string}`, BigInt(fChallengeId)],
+            chainId: baseSepolia.id,
           })}>
           {finalizing ? 'Confirm…' : 'Finalize Progress'}
         </button>
