@@ -1,7 +1,7 @@
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { baseSepolia } from 'wagmi/chains'
 import {
-  ADDRESSES, NazarChallengeAbi, MockUSDAbi,
+  ADDRESSES, NazarChallengeAbi, NazarOracleAbi, MockUSDAbi,
   formatUSDC, formatBps, formatDeadline, CHALLENGE_STATUS,
 } from '../lib/contracts'
 
@@ -24,6 +24,14 @@ export default function ActiveChallengePage() {
     query: { enabled: !!challengeId && challengeId !== 0n },
   }) as { data: any; refetch: () => void }
 
+  const { data: progressBpsRaw, refetch: refetchProgress } = useReadContract({
+    address: ADDRESSES.NazarOracle,
+    abi: NazarOracleAbi,
+    functionName: 'getProgressBps',
+    args: [address as `0x${string}`, challengeId as bigint],
+    query: { enabled: !!address && !!challengeId && challengeId !== 0n },
+  })
+
   const { data: allowance, refetch: refetchAllowance } = useReadContract({
     address: ADDRESSES.MockUSDC,
     abi: MockUSDAbi,
@@ -40,12 +48,12 @@ export default function ActiveChallengePage() {
   // Deposit
   const { writeContract: deposit, data: depositTx, isPending: depositing, error: depositErr } = useWriteContract()
   const { isSuccess: depositOk } = useWaitForTransactionReceipt({ hash: depositTx })
-  if (depositOk) { refetchId(); refetchChallenge() }
+  if (depositOk) { refetchId(); refetchChallenge(); refetchProgress() }
 
   // WithdrawProgress
   const { writeContract: withdrawMilestone, data: withdrawTx, isPending: withdrawing, error: withdrawErr } = useWriteContract()
   const { isSuccess: withdrawOk } = useWaitForTransactionReceipt({ hash: withdrawTx })
-  if (withdrawOk) refetchChallenge()
+  if (withdrawOk) { refetchChallenge(); refetchProgress() }
 
   // Finalize
   const { writeContract: finalize, data: finalizeTx, isPending: finalizing, error: finalizeErr } = useWriteContract()
@@ -62,14 +70,15 @@ export default function ActiveChallengePage() {
 
   const status       = Number(challenge.status)
   const stakeAmount  = challenge.stakeAmount as bigint
-  const progressBps  = challenge.progressBps as bigint
-  const milestones   = Number(challenge.milestonesWithdrawn)
+  const withdrawnBps = challenge.withdrawnBps as bigint
+  const progressBps  = (progressBpsRaw ?? 0n) as bigint
+  const milestones   = Number(withdrawnBps) / 1000          // milestones already withdrawn
   const deadline     = challenge.deadline as bigint
   const isActive     = status === 2
   const isCreated    = status === 1
   const isFinalized  = status === 3
   const now          = BigInt(Math.floor(Date.now() / 1000))
-  const pastDeadline = now > deadline + 86400n  // after grace
+  const pastDeadline = now > deadline + 120n                // 2 min grace period
   const needsApproval = !allowance || (allowance as bigint) < stakeAmount
   const earnedMilestones = Math.floor(Number(progressBps) / 1000)
   const canWithdraw  = isActive && earnedMilestones > milestones

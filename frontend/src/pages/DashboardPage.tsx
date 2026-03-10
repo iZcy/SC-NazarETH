@@ -1,7 +1,7 @@
 import { useAccount, useReadContract } from 'wagmi'
 import type { Page } from '../App'
 import {
-  ADDRESSES, NazarRegistryAbi, NazarChallengeAbi, MockUSDAbi,
+  ADDRESSES, NazarRegistryAbi, NazarChallengeAbi, NazarOracleAbi, MockUSDAbi,
   formatUSDC, formatBps, formatDeadline, CHALLENGE_STATUS,
 } from '../lib/contracts'
 
@@ -49,6 +49,14 @@ export default function DashboardPage({ onNavigate }: Props) {
     args: [challengeId as bigint],
     query: { enabled: challengeId !== undefined && challengeId !== 0n },
   }) as { data: any }
+
+  const { data: progressBpsRaw } = useReadContract({
+    address: ADDRESSES.NazarOracle,
+    abi: NazarOracleAbi,
+    functionName: 'getProgressBps',
+    args: [address as `0x${string}`, challengeId as bigint],
+    query: { enabled: !!address && !!challengeId && challengeId !== 0n },
+  })
 
   if (!isConnected) {
     return (
@@ -148,7 +156,7 @@ export default function DashboardPage({ onNavigate }: Props) {
             </div>
             <div>
               <div className="stat-label">Progress</div>
-              <div style={{ fontWeight: 700 }}>{formatBps((challenge as any).progressBps)}</div>
+              <div style={{ fontWeight: 700 }}>{formatBps((progressBpsRaw ?? 0n) as bigint)}</div>
             </div>
             <div>
               <div className="stat-label">Deadline</div>
@@ -156,7 +164,7 @@ export default function DashboardPage({ onNavigate }: Props) {
             </div>
             <div>
               <div className="stat-label">Milestones withdrawn</div>
-              <div style={{ fontWeight: 700 }}>{String((challenge as any).milestonesWithdrawn)}</div>
+              <div style={{ fontWeight: 700 }}>{String(Number((challenge as any).withdrawnBps ?? 0n) / 1000)}</div>
             </div>
           </div>
           <div style={{ marginTop: 14 }}>
