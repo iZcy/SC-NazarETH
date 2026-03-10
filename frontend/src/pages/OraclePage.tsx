@@ -7,16 +7,16 @@ export default function OraclePage() {
   const { address, isConnected } = useAccount()
 
   // submitProgress fields
-  const [wallet,      setWallet]      = useState('')
+  const [wallet, setWallet] = useState('')
   const [challengeId, setChallengeId] = useState('')
   const [progressBps, setProgressBps] = useState('')
 
   // finalizeProgress fields
-  const [fWallet,      setFWallet]      = useState('')
+  const [fWallet, setFWallet] = useState('')
   const [fChallengeId, setFChallengeId] = useState('')
 
   // MockUSDC mint fields
-  const [mintTo,     setMintTo]     = useState('')
+  const [mintTo, setMintTo] = useState('')
   const [mintAmount, setMintAmount] = useState('100')
 
   const { writeContract: submit, data: submitTx, isPending: submitting, error: submitErr } = useWriteContract()
@@ -54,7 +54,7 @@ export default function OraclePage() {
         </div>
 
         {submitErr && <div className="error-box" style={{ marginBottom: 12 }}>{(submitErr as any).shortMessage ?? submitErr.message}</div>}
-        {submitOk  && <div className="success-box" style={{ marginBottom: 12 }}>Progress submitted!</div>}
+        {submitOk && <div className="success-box" style={{ marginBottom: 12 }}>Progress submitted!</div>}
 
         <button className="btn-primary" style={{ width: '100%', padding: 11 }}
           disabled={submitting || !wallet || !challengeId || !progressBps}
@@ -90,7 +90,7 @@ export default function OraclePage() {
           <input type="number" placeholder="1" value={fChallengeId} onChange={e => setFChallengeId(e.target.value)} />
         </div>
 
-        {finErr     && <div className="error-box" style={{ marginBottom: 12 }}>{(finErr as any).shortMessage ?? finErr.message}</div>}
+        {finErr && <div className="error-box" style={{ marginBottom: 12 }}>{(finErr as any).shortMessage ?? finErr.message}</div>}
         {finalizeOk && <div className="success-box" style={{ marginBottom: 12 }}>Progress finalized!</div>}
 
         <button className="btn-success" style={{ width: '100%', padding: 11 }}

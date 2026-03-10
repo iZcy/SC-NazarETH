@@ -11,9 +11,9 @@ export default function NewChallengePage({ onNavigate }: Props) {
   const [step, setStep] = useState<'approve' | 'create'>('approve')
 
   const [activityType, setActivityType] = useState<keyof typeof ACTIVITY_TYPES>('running')
-  const [targetValue, setTargetValue]   = useState('10000')   // metres / default 10 km
+  const [targetValue, setTargetValue] = useState('10000')   // metres / default 10 km
   const [durationMins, setDurationMins] = useState('3')
-  const [stakeAmount, setStakeAmount]   = useState('10')      // USDC
+  const [stakeAmount, setStakeAmount] = useState('10')      // USDC
 
   const stakeRaw = parseUSDC(stakeAmount || '0')
   const deadline = BigInt(Math.floor(Date.now() / 1000) + Number(durationMins) * 60)

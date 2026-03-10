@@ -68,20 +68,20 @@ export default function ActiveChallengePage() {
   }
   if (!challenge) return <div className="card" style={{ color: 'var(--muted)', padding: 20 }}>Loading…</div>
 
-  const status       = Number(challenge.status)
-  const stakeAmount  = challenge.stakeAmount as bigint
+  const status = Number(challenge.status)
+  const stakeAmount = challenge.stakeAmount as bigint
   const withdrawnBps = challenge.withdrawnBps as bigint
-  const progressBps  = (progressBpsRaw ?? 0n) as bigint
-  const milestones   = Number(withdrawnBps) / 1000          // milestones already withdrawn
-  const deadline     = challenge.deadline as bigint
-  const isActive     = status === 2
-  const isCreated    = status === 1
-  const isFinalized  = status === 3
-  const now          = BigInt(Math.floor(Date.now() / 1000))
+  const progressBps = (progressBpsRaw ?? 0n) as bigint
+  const milestones = Number(withdrawnBps) / 1000          // milestones already withdrawn
+  const deadline = challenge.deadline as bigint
+  const isActive = status === 2
+  const isCreated = status === 1
+  const isFinalized = status === 3
+  const now = BigInt(Math.floor(Date.now() / 1000))
   const pastDeadline = now > deadline + 120n                // 2 min grace period
   const needsApproval = !allowance || (allowance as bigint) < stakeAmount
   const earnedMilestones = Math.floor(Number(progressBps) / 1000)
-  const canWithdraw  = isActive && earnedMilestones > milestones
+  const canWithdraw = isActive && earnedMilestones > milestones
 
   const anyErr = depositErr || withdrawErr || finalizeErr
 
@@ -95,7 +95,7 @@ export default function ActiveChallengePage() {
       <div className="card" style={{ marginBottom: 16 }}>
         <div className="row" style={{ marginBottom: 14 }}>
           <strong>Status</strong>
-          <span className={`tag ml-auto tag-${['purple','purple','yellow','green'][status] ?? 'purple'}`}>
+          <span className={`tag ml-auto tag-${['purple', 'purple', 'yellow', 'green'][status] ?? 'purple'}`}>
             {CHALLENGE_STATUS[status] ?? 'Unknown'}
           </span>
         </div>

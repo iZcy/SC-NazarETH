@@ -145,7 +145,7 @@ export default function DashboardPage({ onNavigate }: Props) {
         <div className="card">
           <div style={{ marginBottom: 12 }} className="row">
             <strong>Active Challenge #{String(challengeId as bigint)}</strong>
-            <span className={`tag ml-auto tag-${['purple','purple','yellow','green'][Number((challenge as any).status)] || 'purple'}`}>
+            <span className={`tag ml-auto tag-${['purple', 'purple', 'yellow', 'green'][Number((challenge as any).status)] || 'purple'}`}>
               {CHALLENGE_STATUS[Number((challenge as any).status)] ?? 'Unknown'}
             </span>
           </div>

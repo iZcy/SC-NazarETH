@@ -15,12 +15,12 @@ async function addBaseSepoliaToMetaMask() {
 }
 
 const TABS: { id: Page; label: string }[] = [
-  { id: 'dashboard',     label: '🏠 Dashboard'   },
-  { id: 'register',      label: '📋 Register'    },
-  { id: 'new-challenge', label: '🎯 New Challenge'},
-  { id: 'active',        label: '⚡ My Challenge' },
-  { id: 'history',       label: '📜 History'     },
-  { id: 'oracle',        label: '🔮 Oracle Panel' },
+  { id: 'dashboard', label: '🏠 Dashboard' },
+  { id: 'register', label: '📋 Register' },
+  { id: 'new-challenge', label: '🎯 New Challenge' },
+  { id: 'active', label: '⚡ My Challenge' },
+  { id: 'history', label: '📜 History' },
+  { id: 'oracle', label: '🔮 Oracle Panel' },
 ]
 
 interface Props {

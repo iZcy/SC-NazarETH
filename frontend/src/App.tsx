@@ -44,12 +44,12 @@ export default function App() {
 
   return (
     <Layout currentPage={page} onNavigate={setPage} banner={isWrongChain ? <WrongChainBanner /> : undefined}>
-      {page === 'dashboard'      && <DashboardPage onNavigate={setPage} />}
-      {page === 'register'       && <RegisterPage onNavigate={setPage} />}
-      {page === 'new-challenge'  && <NewChallengePage onNavigate={setPage} />}
-      {page === 'active'         && <ActiveChallengePage />}
-      {page === 'oracle'         && <OraclePage />}
-      {page === 'history'        && <HistoryPage />}
+      {page === 'dashboard' && <DashboardPage onNavigate={setPage} />}
+      {page === 'register' && <RegisterPage onNavigate={setPage} />}
+      {page === 'new-challenge' && <NewChallengePage onNavigate={setPage} />}
+      {page === 'active' && <ActiveChallengePage />}
+      {page === 'oracle' && <OraclePage />}
+      {page === 'history' && <HistoryPage />}
     </Layout>
   )
 }
