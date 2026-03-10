@@ -1,6 +1,19 @@
 import type { Page } from '../App'
 import ConnectWallet from './ConnectWallet'
 
+async function addBaseSepoliaToMetaMask() {
+  await (window as any).ethereum?.request({
+    method: 'wallet_addEthereumChain',
+    params: [{
+      chainId: '0x14a34', // 84532
+      chainName: 'Base Sepolia',
+      nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+      rpcUrls: ['https://sepolia.base.org'],
+      blockExplorerUrls: ['https://sepolia.basescan.org'],
+    }],
+  })
+}
+
 const TABS: { id: Page; label: string }[] = [
   { id: 'dashboard',     label: '🏠 Dashboard'   },
   { id: 'register',      label: '📋 Register'    },
@@ -45,7 +58,15 @@ export default function Layout({ currentPage, onNavigate, children, banner }: Pr
           </button>
         ))}
 
-        <div className="ml-auto">
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            className="btn-secondary"
+            style={{ fontSize: 12, padding: '4px 12px', color: '#60a5fa', border: '1px solid #60a5fa' }}
+            title="Add Base Sepolia to MetaMask"
+            onClick={addBaseSepoliaToMetaMask}
+          >
+            + Base Sepolia
+          </button>
           <ConnectWallet />
         </div>
       </header>
