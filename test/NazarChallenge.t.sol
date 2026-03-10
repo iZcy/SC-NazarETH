@@ -50,7 +50,7 @@ contract NazarChallengeTest is Test {
 
         // Deploy contracts
         usdc         = new MockUSDC();
-        registry     = new NazarRegistry(admin, oracleSigner);
+        registry     = new NazarRegistry(admin, oracleSigner, false);
         oracleContract = new NazarOracle(admin, oracleSigner);
         yieldVault   = new NazarYield(admin, address(usdc));
         treasury     = new NazarTreasury(admin, address(usdc));

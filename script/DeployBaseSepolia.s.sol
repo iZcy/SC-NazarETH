@@ -45,7 +45,7 @@ contract DeployBaseSepolia is Script {
         vm.startBroadcast(deployerKey);
 
         // ── 1. Core Contracts ─────────────────────────────────────────────────
-        NazarRegistry registry = new NazarRegistry(deployer, oracleSigner);
+        NazarRegistry registry = new NazarRegistry(deployer, oracleSigner, false);
         console2.log("NazarRegistry:  ", address(registry));
 
         NazarOracle oracle = new NazarOracle(deployer, oracleSigner);

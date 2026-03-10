@@ -43,8 +43,8 @@ contract DeployLocal is Script {
         }
 
         // ── 2. Core Contracts ─────────────────────────────────────────────────
-        // Oracle signer = deployer for local testing
-        NazarRegistry registry = new NazarRegistry(deployer, deployer);
+        // Oracle signer = deployer for local testing. devMode = true for local.
+        NazarRegistry registry = new NazarRegistry(deployer, deployer, true);
         console2.log("NazarRegistry:  ", address(registry));
 
         NazarOracle oracle = new NazarOracle(deployer, deployer);

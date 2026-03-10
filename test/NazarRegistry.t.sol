@@ -25,7 +25,7 @@ contract NazarRegistryTest is Test {
         oracleKey = key;
         oracle = oracleSigner;
 
-        registry = new NazarRegistry(admin, oracle);
+        registry = new NazarRegistry(admin, oracle, false);
     }
 
     function _signRegistration(
@@ -46,6 +46,25 @@ contract NazarRegistryTest is Test {
         bytes32 digest = registry.hashTypedDataV4(structHash);
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(oracleKey, digest);
         return abi.encodePacked(r, s, v);
+    }
+
+    // ─── devRegister ───────────────────────────────────────────────────────────
+
+    function test_DevRegister_Revert_WhenDevModeOff() public {
+        // registry was deployed with devMode = false
+        vm.prank(alice);
+        vm.expectRevert("devMode disabled");
+        registry.devRegister(99999999);
+    }
+
+    function test_DevRegister_Success_WhenDevModeOn() public {
+        NazarRegistry devRegistry = new NazarRegistry(admin, oracle, true);
+
+        vm.prank(alice);
+        devRegistry.devRegister(99999999);
+
+        assertTrue(devRegistry.isRegistered(alice));
+        assertEq(devRegistry.getStravaId(alice), 99999999);
     }
 
     // ─── Happy path ────────────────────────────────────────────────────────────

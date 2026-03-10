@@ -45,15 +45,35 @@ contract NazarRegistry is AccessControl, Pausable, EIP712 {
     error SignatureExpired();
 
     // ─── Constructor ───────────────────────────────────────────────────────────
-    constructor(address admin, address oracle)
+    constructor(address admin, address oracle, bool _devMode)
         EIP712("NazarRegistry", "1")
     {
+        devMode = _devMode;
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(ORACLE_ROLE, oracle);
         _grantRole(PAUSER_ROLE, admin);
     }
 
     // ─── External ──────────────────────────────────────────────────────────────
+
+    /**
+     * @notice Dev-only bypass: register without a signature.
+     * @dev Only callable when devMode is true (set at deploy time, immutable).
+     *      Use this in Remix VM / local testing where eth_signTypedData_v4 is unavailable.
+     *      On mainnet/testnet deploy with devMode = false — this function becomes permanently
+     *      unreachable since the require is on an immutable bool.
+     */
+    bool public immutable devMode;
+
+    function devRegister(uint256 stravaAthleteId) external whenNotPaused {
+        require(devMode, "devMode disabled");
+        if (_walletToStrava[msg.sender] != 0) revert AlreadyRegistered(msg.sender);
+        if (_stravaToWallet[stravaAthleteId] != address(0)) revert StravaIdAlreadyBound(stravaAthleteId);
+        _walletToStrava[msg.sender] = stravaAthleteId;
+        _stravaToWallet[stravaAthleteId] = msg.sender;
+        nonces[msg.sender]++;
+        emit Registered(msg.sender, stravaAthleteId);
+    }
 
     /**
      * @notice Register msg.sender to a Strava athlete ID.
