@@ -13,9 +13,10 @@ interface Props {
   currentPage: Page
   onNavigate: (p: Page) => void
   children: React.ReactNode
+  banner?: React.ReactNode
 }
 
-export default function Layout({ currentPage, onNavigate, children }: Props) {
+export default function Layout({ currentPage, onNavigate, children, banner }: Props) {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Nav */}
@@ -48,6 +49,9 @@ export default function Layout({ currentPage, onNavigate, children }: Props) {
           <ConnectWallet />
         </div>
       </header>
+
+      {/* Full-width banner slot (e.g. wrong-chain warning) */}
+      {banner}
 
       {/* Content */}
       <main style={{ flex: 1, padding: '28px 24px', maxWidth: 900, width: '100%', margin: '0 auto' }}>
