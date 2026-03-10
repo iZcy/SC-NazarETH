@@ -12,11 +12,11 @@ export default function NewChallengePage({ onNavigate }: Props) {
 
   const [activityType, setActivityType] = useState<keyof typeof ACTIVITY_TYPES>('running')
   const [targetValue, setTargetValue]   = useState('10000')   // metres / default 10 km
-  const [durationDays, setDurationDays] = useState('7')
+  const [durationMins, setDurationMins] = useState('3')
   const [stakeAmount, setStakeAmount]   = useState('10')      // USDC
 
   const stakeRaw = parseUSDC(stakeAmount || '0')
-  const deadline = BigInt(Math.floor(Date.now() / 1000) + Number(durationDays) * 86400)
+  const deadline = BigInt(Math.floor(Date.now() / 1000) + Number(durationMins) * 60)
 
   // Allowance check
   const { data: allowance, refetch: refetchAllowance } = useReadContract({
@@ -84,14 +84,14 @@ export default function NewChallengePage({ onNavigate }: Props) {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Duration (days)</label>
+          <label className="form-label">Duration (minutes)</label>
           <input
             type="number"
-            min="1"
-            value={durationDays}
-            onChange={e => setDurationDays(e.target.value)}
+            min="3"
+            value={durationMins}
+            onChange={e => setDurationMins(e.target.value)}
           />
-          <span className="form-hint">Minimum 1 day + 1 day grace period for finalization.</span>
+          <span className="form-hint">Minimum 3 minutes. After deadline, wait 2 more minutes (grace period) before finalizing.</span>
         </div>
 
         <div className="form-group">
