@@ -111,7 +111,12 @@ export default function ActiveChallengePage() {
           </div>
           <div>
             <div className="stat-label">Milestones (10% each)</div>
-            <div style={{ fontWeight: 700 }}>{milestones} / {earnedMilestones} earned</div>
+            <div style={{ fontWeight: 700 }}>
+              {milestones} withdrawn
+              <span style={{ color: 'var(--muted)', fontWeight: 400 }}> / </span>
+              {earnedMilestones} earned by oracle
+              <span style={{ color: 'var(--muted)', fontWeight: 400, fontSize: 12 }}> (of 10)</span>
+            </div>
           </div>
           <div>
             <div className="stat-label">Deadline</div>
@@ -129,7 +134,8 @@ export default function ActiveChallengePage() {
           }} />
         </div>
         <div style={{ marginTop: 6, fontSize: 12, color: 'var(--muted)' }}>
-          {formatBps(progressBps)} complete — {earnedMilestones} milestone(s) earned
+          {formatBps(progressBps)} oracle progress — {earnedMilestones} of 10 milestones unlocked
+          {earnedMilestones > milestones && <span style={{ color: 'var(--success)', marginLeft: 8 }}>· {earnedMilestones - milestones} ready to withdraw</span>}
         </div>
       </div>
 
