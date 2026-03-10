@@ -1,20 +1,18 @@
 import abis from './abis.json'
 
-// ─── Deployed addresses (local anvil — from DeployLocal.s.sol broadcast) ────
+// ─── Deployed addresses (Base Sepolia — from DeployBaseSepolia.s.sol broadcast) ─
 export const ADDRESSES = {
-  MockUSDC:       '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-  NazarRegistry:  '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
-  NazarOracle:    '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6',
-  NazarYield:     '0x8A791620dd6260079BF849Dc5567aDC3F2FdC318',
-  NazarTreasury:  '0x610178dA211FEF7D417bC0e6FeD39F05609AD788',
-  NazarChallenge: '0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e',
+  MockUSDC:       '0x036CbD53842c5426634e7929541eC2318f3dCF7e', // Circle testnet USDC
+  NazarRegistry:  '0xED7C2e775761815BCab6B26Fe81174d434Da59Ef',
+  NazarOracle:    '0x6CB8f436aC259E5958eCa87B003803f0488d1B31',
+  NazarYield:     '0x8a4bEA390292F3744F29C4D41886b69A88370184',
+  NazarTreasury:  '0xA5424f3925bF8a03fB7A94a4d7aF304aB7bA9557',
+  NazarChallenge: '0x1957e9635741C593889B9CbCF2D92FdFa9A7CB4D',
 } as const
 
-// ─── Anvil default accounts ──────────────────────────────────────────────────
-export const ANVIL_ACCOUNTS = {
-  admin: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',   // Account 0 — admin/oracle
-  alice: '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',   // Account 1
-  bob:   '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',   // Account 2
+// ─── Known accounts ─────────────────────────────────────────────────────────
+export const KNOWN_ACCOUNTS = {
+  admin: '0xB88a63ba8C3f630bBdA24c121A66199555f056B2',   // deployer/oracle/admin on Base Sepolia
 } as const
 
 // ─── ABI exports ─────────────────────────────────────────────────────────────

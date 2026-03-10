@@ -55,7 +55,7 @@ export default function Layout({ currentPage, onNavigate, children }: Props) {
       </main>
 
       <footer style={{ textAlign: 'center', padding: '14px', color: 'var(--muted)', fontSize: 12 }}>
-        NazarETH · Base Batches III · Local Devnet (Chain 31337)
+        NazarETH · Base Batches III · Base Sepolia (Chain 84532)
       </footer>
     </div>
   )

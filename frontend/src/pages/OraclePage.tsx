@@ -24,13 +24,13 @@ export default function OraclePage() {
   const { writeContract: finalize, data: finTx, isPending: finalizing, error: finErr } = useWriteContract()
   const { isSuccess: finalizeOk } = useWaitForTransactionReceipt({ hash: finTx })
 
-  if (!isConnected) return <div className="card error-box">Connect the admin wallet (Anvil Account 0) to use this panel.</div>
+  if (!isConnected) return <div className="card error-box">Connect the admin wallet to use this panel.</div>
 
   return (
     <div style={{ maxWidth: 580 }}>
       <h2 style={{ color: 'var(--accent2)', marginBottom: 6 }}>Oracle Panel</h2>
       <p style={{ color: 'var(--muted)', marginBottom: 24, fontSize: 13 }}>
-        Admin-only actions. Connect as <code>0xf39Fd6e…</code> (Anvil Account 0 — oracle/admin).
+        Admin-only actions. Connect as <code>0xB88a63ba…</code> (deployer/oracle/admin · Base Sepolia).
       </p>
 
       {/* Submit Progress */}
@@ -116,11 +116,11 @@ export default function OraclePage() {
             ))}
             <tr>
               <td style={{ padding: '6px 8px', color: 'var(--muted)' }}>Admin / Oracle</td>
-              <td style={{ padding: '6px 8px', color: 'var(--success)' }}>0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266</td>
+              <td style={{ padding: '6px 8px', color: 'var(--success)' }}>0xB88a63ba8C3f630bBdA24c121A66199555f056B2</td>
             </tr>
             <tr>
               <td style={{ padding: '6px 8px', color: 'var(--muted)' }}>Chain</td>
-              <td style={{ padding: '6px 8px', color: 'var(--text)' }}>31337 (Anvil local)</td>
+              <td style={{ padding: '6px 8px', color: 'var(--text)' }}>84532 (Base Sepolia)</td>
             </tr>
             <tr>
               <td style={{ padding: '6px 8px', color: 'var(--muted)' }}>Connected as</td>

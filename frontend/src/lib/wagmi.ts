@@ -1,14 +1,20 @@
 import { createConfig, http } from 'wagmi'
-import { foundry } from 'wagmi/chains'
+import { baseSepolia } from 'wagmi/chains'
 import { injected } from 'wagmi/connectors'
 
 export const config = createConfig({
-  chains: [foundry],
+  chains: [baseSepolia],
   connectors: [injected()],
   transports: {
-    [foundry.id]: http('http://localhost:8545'),
+    [baseSepolia.id]: http('https://sepolia.base.org'),
   },
 })
+
+declare module 'wagmi' {
+  interface Register {
+    config: typeof config
+  }
+}
 
 declare module 'wagmi' {
   interface Register {

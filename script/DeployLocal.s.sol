@@ -12,18 +12,18 @@ import "../src/NazarChallenge.sol";
 /**
  * @notice Local deployment script. Deploys all contracts and wires roles.
  *
- * Usage:
+ * Usage (no private key needed — Anvil handles signing):
  *   forge script script/DeployLocal.s.sol \
- *     --fork-url http://localhost:8545 \
- *     --broadcast -vvvv
+ *     --rpc-url http://localhost:8545 \
+ *     --sender 0x66534dD42A65a2386aA9cB9c36d37A35c01C77b6 \
+ *     --unlocked --broadcast -vvv
  */
 contract DeployLocal is Script {
 
     function run() external {
-        uint256 deployerKey = vm.envUint("PRIVATE_KEY");
-        address deployer    = vm.addr(deployerKey);
+        address deployer = msg.sender; // set via --sender flag, no private key needed
 
-        vm.startBroadcast(deployerKey);
+        vm.startBroadcast();
 
         // ── 1. Mock USDC ───────────────────────────────────────────────────────
         MockUSDC usdc = new MockUSDC();
