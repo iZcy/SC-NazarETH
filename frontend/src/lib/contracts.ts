@@ -1,13 +1,13 @@
 import abis from './abis.json'
 
-// ─── Deployed addresses (Base Sepolia — from DeployBaseSepolia.s.sol broadcast) ─
+// ─── Deployed addresses (Base Sepolia — MockUSDC, 2-min durations for PoC) ──
 export const ADDRESSES = {
-  MockUSDC:       '0x036CbD53842c5426634e7929541eC2318f3dCF7e', // Circle testnet USDC
-  NazarRegistry:  '0xED7C2e775761815BCab6B26Fe81174d434Da59Ef',
-  NazarOracle:    '0x6CB8f436aC259E5958eCa87B003803f0488d1B31',
-  NazarYield:     '0x8a4bEA390292F3744F29C4D41886b69A88370184',
-  NazarTreasury:  '0xA5424f3925bF8a03fB7A94a4d7aF304aB7bA9557',
-  NazarChallenge: '0x1957e9635741C593889B9CbCF2D92FdFa9A7CB4D',
+  MockUSDC:       '0x7E450bbceD79824BDb019a39D4147288159CA405',
+  NazarRegistry:  '0x04a340843af2e6b98D6C73a34195D715954e6F8C',
+  NazarOracle:    '0xf3A7a178C94152a8ad3eCcBc859DdcEf39763eBB',
+  NazarYield:     '0xa68aE383B23D31730C0c5D1F8E2d869406f01CB3',
+  NazarTreasury:  '0xAD2c206C02107D594B3B337Ce10950c14986205c',
+  NazarChallenge: '0xB7dF500fec819efD7FC6F544C6A9B760d1cdEC2a',
 } as const
 
 // ─── Known accounts ─────────────────────────────────────────────────────────

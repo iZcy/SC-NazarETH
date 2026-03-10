@@ -55,9 +55,9 @@ contract NazarChallenge is AccessControl, Pausable, ReentrancyGuard {
     /// @dev Completion pool: 85% of penalty stake.
     uint256 public constant COMPLETION_POOL_BPS = 8_500;
     /// @dev Minimum challenge duration to prevent abuse.
-    uint256 public constant MIN_DURATION      = 1 days;
+    uint256 public constant MIN_DURATION      = 2 minutes; // NOTE: short for PoC demo (was 1 days)
     /// @dev Grace period after deadline before anyone can force-finalize without oracle finalization.
-    uint256 public constant GRACE_PERIOD      = 1 days;
+    uint256 public constant GRACE_PERIOD      = 2 minutes; // NOTE: short for PoC demo (was 1 days)
     /// @dev Minimum stake to prevent spam challenges.
     uint256 public constant MIN_STAKE         = 1e6; // 1 USDC (6 decimals)
 
