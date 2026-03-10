@@ -19,6 +19,7 @@ const TABS: { id: Page; label: string }[] = [
   { id: 'register',      label: '📋 Register'    },
   { id: 'new-challenge', label: '🎯 New Challenge'},
   { id: 'active',        label: '⚡ My Challenge' },
+  { id: 'history',       label: '📜 History'     },
   { id: 'oracle',        label: '🔮 Oracle Panel' },
 ]
 

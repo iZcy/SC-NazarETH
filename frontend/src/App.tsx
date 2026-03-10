@@ -7,8 +7,9 @@ import RegisterPage from './pages/RegisterPage'
 import NewChallengePage from './pages/NewChallengePage'
 import ActiveChallengePage from './pages/ActiveChallengePage'
 import OraclePage from './pages/OraclePage'
+import HistoryPage from './pages/HistoryPage'
 
-export type Page = 'dashboard' | 'register' | 'new-challenge' | 'active' | 'oracle'
+export type Page = 'dashboard' | 'register' | 'new-challenge' | 'active' | 'oracle' | 'history'
 
 function WrongChainBanner() {
   const { switchChain, isPending } = useSwitchChain()
@@ -48,6 +49,7 @@ export default function App() {
       {page === 'new-challenge'  && <NewChallengePage onNavigate={setPage} />}
       {page === 'active'         && <ActiveChallengePage />}
       {page === 'oracle'         && <OraclePage />}
+      {page === 'history'        && <HistoryPage />}
     </Layout>
   )
 }
