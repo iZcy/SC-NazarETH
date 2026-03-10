@@ -10,25 +10,47 @@ import OraclePage from './pages/OraclePage'
 
 export type Page = 'dashboard' | 'register' | 'new-challenge' | 'active' | 'oracle'
 
+async function addBaseSepoliaToMetaMask() {
+  await (window as any).ethereum?.request({
+    method: 'wallet_addEthereumChain',
+    params: [{
+      chainId: '0x' + baseSepolia.id.toString(16),
+      chainName: 'Base Sepolia',
+      nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+      rpcUrls: ['https://sepolia.base.org'],
+      blockExplorerUrls: ['https://sepolia.basescan.org'],
+    }],
+  })
+}
+
 function WrongChainBanner() {
   const { switchChain, isPending } = useSwitchChain()
   return (
     <div style={{
       background: '#78350f', borderBottom: '1px solid #f59e0b',
-      padding: '10px 24px', display: 'flex', alignItems: 'center', gap: 12,
+      padding: '10px 24px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
     }}>
       <span style={{ color: '#fbbf24', fontWeight: 600 }}>⚠️ Wrong network</span>
       <span style={{ color: '#fde68a', fontSize: 13 }}>
         This app runs on Base Sepolia. You are on a different network.
       </span>
-      <button
-        className="btn-primary"
-        style={{ marginLeft: 'auto', fontSize: 13, padding: '5px 16px', background: '#f59e0b', color: '#000' }}
-        disabled={isPending}
-        onClick={() => switchChain({ chainId: baseSepolia.id })}
-      >
-        {isPending ? 'Switching…' : 'Switch to Base Sepolia'}
-      </button>
+      <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+        <button
+          className="btn-primary"
+          style={{ fontSize: 13, padding: '5px 16px', background: '#1d4ed8', color: '#fff' }}
+          onClick={addBaseSepoliaToMetaMask}
+        >
+          Add Base Sepolia
+        </button>
+        <button
+          className="btn-primary"
+          style={{ fontSize: 13, padding: '5px 16px', background: '#f59e0b', color: '#000' }}
+          disabled={isPending}
+          onClick={() => switchChain({ chainId: baseSepolia.id })}
+        >
+          {isPending ? 'Switching…' : 'Switch to Base Sepolia'}
+        </button>
+      </div>
     </div>
   )
 }
