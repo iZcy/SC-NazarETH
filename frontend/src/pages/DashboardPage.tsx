@@ -1,4 +1,5 @@
-import { useAccount, useReadContract } from 'wagmi'
+import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { baseSepolia } from 'wagmi/chains'
 import type { Page } from '../App'
 import {
   ADDRESSES, NazarRegistryAbi, NazarChallengeAbi, NazarOracleAbi, MockUSDAbi,
@@ -26,7 +27,7 @@ export default function DashboardPage({ onNavigate }: Props) {
     query: { enabled: !!address && !!isRegistered },
   })
 
-  const { data: usdcBalance } = useReadContract({
+  const { data: usdcBalance, refetch: refetchBalance } = useReadContract({
     address: ADDRESSES.MockUSDC,
     abi: MockUSDAbi,
     functionName: 'balanceOf',
@@ -57,6 +58,11 @@ export default function DashboardPage({ onNavigate }: Props) {
     args: [address as `0x${string}`, challengeId as bigint],
     query: { enabled: !!address && !!challengeId && challengeId !== 0n },
   })
+
+  // Faucet: mint 1000 MockUSDC to self
+  const { writeContract: mintUsdc, data: mintTx, isPending: minting } = useWriteContract()
+  const { isSuccess: mintOk } = useWaitForTransactionReceipt({ hash: mintTx, query: { enabled: !!mintTx } })
+  if (mintOk) refetchBalance()
 
   if (!isConnected) {
     return (
@@ -107,7 +113,37 @@ export default function DashboardPage({ onNavigate }: Props) {
         </div>
       </div>
 
-      {/* Quick actions */}
+      {/* MockUSDC Faucet */}
+      <div className="card">
+        <div className="row">
+          <div>
+            <strong>🚰 MockUSDC Faucet</strong>
+            <p style={{ color: 'var(--muted)', fontSize: 13, marginTop: 4 }}>
+              Mint 1,000 test USDC to your wallet. Free on devnet — no real funds involved.
+            </p>
+            <p style={{ color: 'var(--muted)', fontSize: 12, marginTop: 2 }}>
+              Current balance: <strong style={{ color: 'var(--accent2)' }}>
+                {usdcBalance !== undefined ? formatUSDC(usdcBalance as bigint) : '…'} USDC
+              </strong>
+            </p>
+          </div>
+          <button
+            className="btn-primary ml-auto"
+            style={{ whiteSpace: 'nowrap' }}
+            disabled={minting || !address}
+            onClick={() => mintUsdc({
+              address: ADDRESSES.MockUSDC,
+              abi: MockUSDAbi,
+              functionName: 'mint',
+              args: [address as `0x${string}`, 1000n * 10n ** 6n],
+              chainId: baseSepolia.id,
+            })}
+          >
+            {minting ? 'Minting…' : 'Get 1,000 USDC'}
+          </button>
+        </div>
+        {mintOk && <div className="success-box" style={{ marginTop: 10 }}>✓ 1,000 USDC minted to your wallet!</div>}
+      </div>
       {!isRegistered && (
         <div className="card">
           <div className="row">
