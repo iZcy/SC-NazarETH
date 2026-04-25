@@ -15,23 +15,44 @@ function WrongChainBanner() {
   const { switchChain, isPending } = useSwitchChain()
   return (
     <div style={{
-      background: '#78350f', borderBottom: '1px solid #f59e0b',
-      padding: '10px 24px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+      background: 'linear-gradient(90deg, rgba(252,76,2,0.08), rgba(252,76,2,0.15))',
+      borderBottom: '1px solid rgba(252,76,2,0.25)',
+      padding: '10px 28px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 14,
     }}>
-      <span style={{ color: '#fbbf24', fontWeight: 600 }}>⚠️ Wrong network</span>
-      <span style={{ color: '#fde68a', fontSize: 13 }}>
-        This app runs on Base Sepolia. First add the network, then switch.
-      </span>
-      <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
-        <button
-          className="btn-primary"
-          style={{ fontSize: 13, padding: '5px 16px', background: '#f59e0b', color: '#000' }}
-          disabled={isPending}
-          onClick={() => switchChain({ chainId: baseSepolia.id })}
-        >
-          {isPending ? 'Switching…' : 'Switch to Base Sepolia'}
-        </button>
+      <div style={{
+        width: 28, height: 28, borderRadius: 8,
+        background: 'rgba(252,76,2,0.15)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 14,
+      }}>
+        ⚠️
       </div>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--accent2)' }}>Wrong Network</div>
+        <div style={{ fontSize: 12, color: 'var(--muted)' }}>
+          This app runs on Base Sepolia. Switch your network to continue.
+        </div>
+      </div>
+      <button
+        disabled={isPending}
+        onClick={() => switchChain({ chainId: baseSepolia.id })}
+        style={{
+          background: 'linear-gradient(135deg, #FC4C02, #ff7e3a)',
+          border: 'none',
+          borderRadius: 8,
+          color: '#fff',
+          padding: '6px 16px',
+          fontSize: 12,
+          fontWeight: 600,
+          cursor: 'pointer',
+          fontFamily: 'inherit',
+        }}
+      >
+        {isPending ? 'Switching...' : 'Switch to Base Sepolia'}
+      </button>
     </div>
   )
 }

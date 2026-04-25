@@ -5,7 +5,7 @@ async function addBaseSepoliaToMetaMask() {
   await (window as any).ethereum?.request({
     method: 'wallet_addEthereumChain',
     params: [{
-      chainId: '0x14a34', // 84532
+      chainId: '0x14a34',
       chainName: 'Base Sepolia',
       nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
       rpcUrls: ['https://sepolia.base.org'],
@@ -14,13 +14,13 @@ async function addBaseSepoliaToMetaMask() {
   })
 }
 
-const TABS: { id: Page; label: string }[] = [
-  { id: 'dashboard', label: '🏠 Dashboard' },
-  { id: 'register', label: '📋 Register' },
-  { id: 'new-challenge', label: '🎯 New Challenge' },
-  { id: 'active', label: '⚡ My Challenge' },
-  { id: 'history', label: '📜 History' },
-  { id: 'oracle', label: '🔮 Oracle Panel' },
+const NAV_ITEMS: { id: Page; label: string; icon: string }[] = [
+  { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+  { id: 'register', label: 'Register', icon: '👤' },
+  { id: 'new-challenge', label: 'New Challenge', icon: '🎯' },
+  { id: 'active', label: 'My Challenge', icon: '⚡' },
+  { id: 'history', label: 'History', icon: '📜' },
+  { id: 'oracle', label: 'Oracle', icon: '🔮' },
 ]
 
 interface Props {
@@ -33,38 +33,76 @@ interface Props {
 export default function Layout({ currentPage, onNavigate, children, banner }: Props) {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* Nav */}
       <header style={{
-        background: 'var(--surface)',
+        background: 'linear-gradient(180deg, #1a1a24 0%, var(--surface) 100%)',
         borderBottom: '1px solid var(--border)',
-        padding: '0 24px',
+        padding: '0 28px',
         display: 'flex',
         alignItems: 'center',
-        gap: 8,
-        height: 56,
-        position: 'sticky', top: 0, zIndex: 10,
+        height: 60,
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        backdropFilter: 'blur(12px)',
       }}>
-        <span style={{ fontWeight: 700, fontSize: 18, color: 'var(--accent2)', marginRight: 16 }}>
-          NazarETH
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginRight: 28 }}>
+          <div style={{
+            width: 32, height: 32, borderRadius: 8,
+            background: 'linear-gradient(135deg, #FC4C02, #ff7e3a)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontWeight: 800, fontSize: 14, color: '#fff',
+            boxShadow: '0 2px 8px rgba(252,76,2,0.3)',
+          }}>N</div>
+          <span style={{ fontWeight: 800, fontSize: 17, letterSpacing: '-0.02em', color: '#fff' }}>
+            Nazar<span style={{ color: 'var(--accent2)' }}>ETH</span>
+          </span>
+        </div>
 
-        {TABS.map(t => (
-          <button
-            key={t.id}
-            className={currentPage === t.id ? 'btn-primary' : 'btn-secondary'}
-            style={{ fontSize: 13 }}
-            onClick={() => onNavigate(t.id)}
-          >
-            {t.label}
-          </button>
-        ))}
+        <nav style={{ display: 'flex', gap: 4, flex: 1 }}>
+          {NAV_ITEMS.map(item => {
+            const active = currentPage === item.id
+            return (
+              <button
+                key={item.id}
+                onClick={() => onNavigate(item.id)}
+                style={{
+                  background: active ? 'rgba(252,76,2,0.12)' : 'transparent',
+                  color: active ? 'var(--accent2)' : 'var(--muted)',
+                  border: 'none',
+                  borderRadius: 8,
+                  padding: '7px 14px',
+                  fontSize: 13,
+                  fontWeight: active ? 600 : 500,
+                  cursor: 'pointer',
+                  transition: 'all .15s ease',
+                  borderBottom: active ? '2px solid var(--strava)' : '2px solid transparent',
+                  fontFamily: 'inherit',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <span style={{ marginRight: 5 }}>{item.icon}</span>
+                {item.label}
+              </button>
+            )
+          })}
+        </nav>
 
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <button
-            className="btn-secondary"
-            style={{ fontSize: 12, padding: '4px 12px', color: '#60a5fa', border: '1px solid #60a5fa' }}
-            title="Add Base Sepolia to MetaMask"
             onClick={addBaseSepoliaToMetaMask}
+            style={{
+              background: 'transparent',
+              border: '1px solid var(--border)',
+              borderRadius: 8,
+              color: 'var(--muted)',
+              padding: '5px 12px',
+              fontSize: 11,
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              transition: 'all .15s ease',
+            }}
+            title="Add Base Sepolia to MetaMask"
           >
             + Base Sepolia
           </button>
@@ -72,16 +110,27 @@ export default function Layout({ currentPage, onNavigate, children, banner }: Pr
         </div>
       </header>
 
-      {/* Full-width banner slot (e.g. wrong-chain warning) */}
       {banner}
 
-      {/* Content */}
-      <main style={{ flex: 1, padding: '28px 24px', maxWidth: 900, width: '100%', margin: '0 auto' }}>
+      <main style={{
+        flex: 1,
+        padding: '32px 28px',
+        maxWidth: 960,
+        width: '100%',
+        margin: '0 auto',
+        animation: 'fadeIn .25s ease',
+      }}>
         {children}
       </main>
 
-      <footer style={{ textAlign: 'center', padding: '14px', color: 'var(--muted)', fontSize: 12 }}>
-        NazarETH · Base Batches III · Base Sepolia (Chain 84532)
+      <footer style={{
+        textAlign: 'center',
+        padding: '18px',
+        color: 'var(--muted)',
+        fontSize: 12,
+        borderTop: '1px solid var(--border)',
+      }}>
+        NazarETH · Built on Base · Base Sepolia (84532)
       </footer>
     </div>
   )

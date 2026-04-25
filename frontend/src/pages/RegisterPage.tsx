@@ -19,7 +19,6 @@ export default function RegisterPage({ onNavigate }: Props) {
   })
 
   const { writeContract, data: txHash, isPending, error } = useWriteContract()
-
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash: txHash,
     query: { enabled: !!txHash },
@@ -39,11 +38,17 @@ export default function RegisterPage({ onNavigate }: Props) {
   if (isSuccess) {
     refetch()
     return (
-      <div className="card" style={{ textAlign: 'center', padding: 40 }}>
-        <div style={{ fontSize: 40, marginBottom: 12 }}>🎉</div>
-        <div className="success-box" style={{ marginBottom: 20 }}>
-          Registered successfully! Your Strava ID {stravaId} is now linked to your wallet.
-        </div>
+      <div className="card animate-in" style={{ textAlign: 'center', padding: 48 }}>
+        <div style={{
+          width: 64, height: 64, borderRadius: 16,
+          background: 'var(--success-bg)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          margin: '0 auto 16px', fontSize: 28,
+        }}>✓</div>
+        <h2 className="section-title" style={{ marginBottom: 8 }}>Registered!</h2>
+        <p style={{ color: 'var(--text2)', marginBottom: 24, lineHeight: 1.6 }}>
+          Strava ID <strong>{stravaId}</strong> is now linked to your wallet.
+        </p>
         <button className="btn-primary" onClick={() => onNavigate('new-challenge')}>
           Create a Challenge →
         </button>
@@ -52,30 +57,41 @@ export default function RegisterPage({ onNavigate }: Props) {
   }
 
   if (!isConnected) {
-    return <div className="card error-box">Connect your wallet to register.</div>
+    return (
+      <div className="card animate-in" style={{ textAlign: 'center', padding: 40 }}>
+        <p style={{ color: 'var(--muted)' }}>Connect your wallet to register.</p>
+      </div>
+    )
   }
 
   if (isRegistered) {
     return (
-      <div className="card" style={{ textAlign: 'center', padding: 40 }}>
-        <div className="success-box" style={{ marginBottom: 16 }}>
-          ✓ Your wallet is already registered.
-        </div>
-        <button className="btn-primary" onClick={() => onNavigate('dashboard')}>← Back to Dashboard</button>
+      <div className="card animate-in" style={{ textAlign: 'center', padding: 48 }}>
+        <div style={{
+          width: 64, height: 64, borderRadius: 16,
+          background: 'var(--success-bg)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          margin: '0 auto 16px', fontSize: 28,
+        }}>✓</div>
+        <h2 className="section-title" style={{ marginBottom: 8 }}>Already Registered</h2>
+        <p style={{ color: 'var(--text2)', marginBottom: 24 }}>Your wallet is linked to a Strava account.</p>
+        <button className="btn-secondary" onClick={() => onNavigate('dashboard')}>
+          ← Back to Dashboard
+        </button>
       </div>
     )
   }
 
   return (
-    <div style={{ maxWidth: 480 }}>
-      <h2 style={{ color: 'var(--accent2)', marginBottom: 20 }}>Register</h2>
+    <div style={{ maxWidth: 480 }} className="animate-in">
+      <h1 className="section-title" style={{ marginBottom: 6 }}>Register</h1>
+      <p style={{ color: 'var(--muted)', marginBottom: 24, lineHeight: 1.6 }}>
+        Link your wallet to a Strava athlete ID. On devnet, <code style={{
+          background: 'var(--surface2)', padding: '2px 6px', borderRadius: 4, fontSize: 12,
+        }}>devRegister</code> skips the signature check.
+      </p>
 
       <div className="card">
-        <p style={{ color: 'var(--muted)', marginBottom: 20, lineHeight: 1.6 }}>
-          Link your wallet to a Strava athlete ID. On the local devnet this uses{' '}
-          <code>devRegister</code> which skips the EIP-712 signature check.
-        </p>
-
         <div className="form-group">
           <label className="form-label">Strava Athlete ID</label>
           <input
@@ -85,7 +101,7 @@ export default function RegisterPage({ onNavigate }: Props) {
             onChange={e => setStravaId(e.target.value)}
           />
           <span className="form-hint">
-            Find it at strava.com/athletes/&lt;ID&gt; — any number works on local devnet.
+            Find it at strava.com/athletes/&lt;ID&gt; — any number works on devnet.
           </span>
         </div>
 
@@ -97,11 +113,11 @@ export default function RegisterPage({ onNavigate }: Props) {
 
         <button
           className="btn-primary"
-          style={{ width: '100%', padding: 12 }}
+          style={{ width: '100%', padding: 13 }}
           disabled={!stravaId || isPending || isConfirming}
           onClick={handleRegister}
         >
-          {isPending ? 'Confirm in wallet…' : isConfirming ? 'Confirming…' : 'Register (devMode)'}
+          {isPending ? 'Confirm in wallet...' : isConfirming ? 'Confirming...' : 'Register (devMode)'}
         </button>
       </div>
     </div>
